@@ -8,6 +8,7 @@ use App\Models\PromoVendidos;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdatePromoVendidosRequest;
 use App\Mail\CompraRealizada;
+use App\Mail\CorreoAdmin;
 use App\Models\Correos;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
@@ -28,22 +29,23 @@ class PromoVendidosController extends Controller
     {
     }
 
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string',
+            'telefono' => 'required|string',
             'correo' => 'required|email',
             'cantidad_adultos' => 'required|integer|min:1',
             'cantidad_ninio' => 'required|integer|min:0',
-            'promocion_id' => 'required|exists:promociones,id',
+            'nombre_paquete' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $promocionId = $request->input('promocion_id');
+        $nombre_paquete = $request->input('nombre_paquete');
+        $telefono = $request->input('telefono');
         $nombre = $request->input('nombre');
         $correo = $request->input('correo');
         $cantidadAdultos = $request->input('cantidad_adultos');
@@ -57,16 +59,20 @@ class PromoVendidosController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
-            Charge::create([
-                'amount' => $total * 100, // Convertir el monto a centavos
+            $charge = Charge::create([
+                'amount' => $total * 100,
                 'currency' => 'MXN',
                 'source' => $request->input('stripeToken'),
                 'description' => 'Compra de ' . $nombre,
+                'receipt_email' => $correo,
+                'metadata' => [
+                    'Nombre' => $nombre, 
+                ],
             ]);
 
-            // Crear el registro de compra en la base de datos
             $compra = PromoVendidos::create([
-                'promocion_id' => $promocionId,
+                'nombre_paquete' => $nombre_paquete,
+                'telefono' => $telefono,
                 'nombre' => $nombre,
                 'correo' => $correo,
                 'cantidad_adultos' => $cantidadAdultos,
@@ -74,19 +80,24 @@ class PromoVendidosController extends Controller
                 'total' => $total,
             ]);
 
-            // Enviar correo electrónico personalizado al comprador
-            Mail::to($correo)->send(new CompraRealizada($compra));
+            $correos = Correos::pluck('email')->toArray();
 
-            // Aquí puedes obtener los correos de la tabla correos y enviarles el correo estándar
-            // Recuerda ajustar esto según la lógica específica de tu aplicación
+            try {
+                Mail::to($correo)->send(new CompraRealizada($compra));
 
-            return redirect()->route('dashboard')->with('success', 'Compra realizada con éxito');
+                foreach ($correos as $correoDestino) {
+                    Mail::to($correoDestino)->send(new CorreoAdmin($compra));
+                }
+                return view('comprafinalizada');
+
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage())->withInput();
+            }
+            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }
     }
-
-
 
     public function show(PromoVendidos $promoVendidos)
     {

@@ -20,20 +20,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->middleware(['auth', 'verified'])->name('welcome');
+})->name('welcome');
 
+Route::get('/comprafinalizada', function () {
+    return view('comprafinalizada');
+})->name('comprafinalizada');
+
+Route::get('/productos/detalle/{promociones}', [PromocionesController::class, 'show'])->name('productos.show');
+Route::post('/promo_producto', [PromoVendidosController::class, 'store'])->name('promo.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/productos', [PromocionesController::class, 'index'])->name('productos.index');
     Route::get('/productos/editar/{promociones}', [PromocionesController::class, 'edit'])->name('productos.edit');
-    Route::get('/productos/detalle/{promociones}', [PromocionesController::class, 'show'])->name('productos.show');
     Route::post('/productos', [PromocionesController::class, 'store'])->name('productos.store');
     Route::patch('/productos/{promociones}', [PromocionesController::class, 'update'])->name('productos.update');
     Route::patch('/productos/{promocion}/activate', [PromocionesController::class, 'activate'])->name('productos.activate');
@@ -46,8 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/correos', [CorreosController::class, 'store'])->name('correos.store');
     Route::patch('/correos/{correos}', [CorreosController::class, 'update'])->name('correos.update');
     Route::delete('/correos/{correos}', [CorreosController::class, 'destroy'])->name('correos.destroy');
-    Route::post('/promo_producto', [PromoVendidosController::class, 'store'])->name('promo.store');
-
 
     Route::get('/ventas', [PromoVendidosController::class, 'index'])->name('ventas.index');
 

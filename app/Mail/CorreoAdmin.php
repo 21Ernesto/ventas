@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class CompraRealizada extends Mailable
+class CorreoAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -25,7 +25,7 @@ class CompraRealizada extends Mailable
         try {
             // Enviar el correo electrónico
             return $this->subject('¡Compra realizada con éxito!')
-                ->view('mails.compra_realizada')
+                ->view('mails.notificacion_admin')
                 ->with(['compra' => $this->compra]);
         } catch (\Exception $e) {
             // Manejar cualquier excepción aquí si es necesario

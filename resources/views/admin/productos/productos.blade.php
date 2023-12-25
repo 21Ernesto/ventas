@@ -77,8 +77,8 @@
                                             </button>
 
                                             <div id="dropdown-{{ $promociones->id }}"
-                                                class="absolute right-0 mt-2 bg-white border dark:border-gray-700 rounded-md shadow-md hidden"
-                                                style="z-index: 1000;">
+                                                class="absolute right-0 bg-white border dark:border-gray-700 rounded-md shadow-md hidden"
+                                                style="z-index: 1000; top: -32px">
 
                                                 <a href="{{ route('productos.show', $promociones->id) }}"
                                                     class="block w-full px-4 py-2 text-green-600 hover:bg-gray-100">
@@ -107,7 +107,7 @@
                                                         class="block px-4 py-2 text-yellow-600 hover:bg-gray-100">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="submit" class="w-full focus:outline-none">
+                                                        <button type="submit" class="block w-full focus:outline-none">
                                                             <i class="fas fa-toggle-off"></i>
                                                         </button>
                                                     </form>
@@ -117,7 +117,7 @@
                                                         class="block px-4 py-2 text-green-600 hover:bg-gray-100">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="submit" class="w-full focus:outline-none">
+                                                        <button type="submit" class="block w-full focus:outline-none">
                                                             <i class="fas fa-toggle-on"></i>
                                                         </button>
                                                     </form>

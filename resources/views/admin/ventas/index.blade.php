@@ -24,6 +24,9 @@
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 font-semibold">
+                                        Folio
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 font-semibold">
                                         Nombre
                                     </th>
                                     <th scope="col" class="px-6 py-3 font-semibold">
@@ -46,6 +49,9 @@
                             <tbody>
                                 @forelse ($ventas as $venta)
                                     <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
+                                        <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ substr($venta->id, 0, 13) }}
+                                        </td>                                        
                                         <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $venta->nombre }}
                                         </td>
@@ -81,25 +87,27 @@
     </div>
 
     <script>
-        // BUSCAR CORREOS
         function search_ventas() {
-            let input, filter, table, tr, tdName, tdEmail, i, txtValueName, txtValueEmail;
+            let input, filter, table, tr, txtUuid, tdName, tdEmail, i, txtValueName, txtValueEmail, txtValueUuid;
             input = document.getElementById("search_ventas");
             filter = input.value.toUpperCase();
             table = document.querySelector("table");
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) {
-                tdName = tr[i].getElementsByTagName("td")[0];
-                tdEmail = tr[i].getElementsByTagName("td")[1];
+                txtUuid = tr[i].getElementsByTagName("td")[0];
+                tdName = tr[i].getElementsByTagName("td")[1];
+                tdEmail = tr[i].getElementsByTagName("td")[2];
 
-                if (tdName && tdEmail) {
+                if (tdName && tdEmail && txtUuid) {
                     txtValueName = tdName.textContent || tdName.innerText;
                     txtValueEmail = tdEmail.textContent || tdEmail.innerText;
+                    txtValueUuid = txtUuid.textContent || txtUuid.innerText;
 
                     if (
                         txtValueName.toUpperCase().indexOf(filter) > -1 ||
-                        txtValueEmail.toUpperCase().indexOf(filter) > -1
+                        txtValueEmail.toUpperCase().indexOf(filter) > -1 ||
+                        txtValueUuid.toUpperCase().indexOf(filter) > -1
                     ) {
                         tr[i].style.display = "";
                     } else {

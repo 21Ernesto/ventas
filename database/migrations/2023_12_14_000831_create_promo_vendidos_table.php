@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('promo_vendidos', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('promocion_id');
+            $table->string('nombre_paquete');
+            $table->string('telefono');
             $table->string('correo');
             $table->string('nombre');
             $table->integer('cantidad_adultos');

@@ -40,15 +40,23 @@
                     <form action="{{ route('promo.store') }}" method="POST" id="compraForm" enctype="multipart/form-data">
                         @csrf
 
-                        <input type="hidden" name="promocion_id" value="{{ $promocion->id }}">
+                        <input type="hidden" name="nombre_paquete" value="{{ $promocion->nombre_paquete }}">
                         <input type="hidden" name="costo_adulto" value="{{ $promocion->costo_adulto }}">
                         <input type="hidden" name="costo_ninio" value="{{ $promocion->costo_ninio }}">
                         <input type="hidden" name="es_promocion" value="{{ $promocion->promocion ? 'true' : 'false' }}">
 
-                        <div class="mb-4">
-                            <label for="nombre" class="block text-sm font-semibold text-gray-600">Nombres:</label>
-                            <input type="text" id="nombre" name="nombre" required
-                                class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div class="mb-4">
+                                <label for="nombre" class="block text-sm font-semibold text-gray-600">Nombres:</label>
+                                <input type="text" id="nombre" name="nombre" required
+                                    class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                            </div>
+                            <div class="mb-4">
+                                <label for="telefono" class="block text-sm font-semibold text-gray-600">Teléfono:</label>
+                                <input type="text" id="telefono" name="telefono" required
+                                    class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                            </div>
                         </div>
 
                         <div class="mb-4">

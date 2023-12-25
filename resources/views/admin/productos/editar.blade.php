@@ -13,7 +13,6 @@
                     type="button">
                     Lista
                 </a>
-
             </div>
         </div>
     </x-slot>
@@ -48,10 +47,6 @@
                             <label for="descripcion_paquete">Descripción del Paquete</label>
                             <textarea required name="descripcion_paquete" class="mb-2 p-2 border rounded w-full">{{ old('descripcion_paquete', $promocion->descripcion_paquete) }}</textarea>
 
-                            {{-- <label for="catindad_dias">Cantidad de Días</label>
-                            <input type="number" required name="catindad_dias" class="mb-2 p-2 border rounded w-full"
-                                value="{{ old('catindad_dias', $promocion->catindad_dias) }}" /> --}}
-
                             <label for="costo_adulto">Costo Adulto</label>
                             <input type="number" required name="costo_adulto" class="mb-2 p-2 border rounded w-full"
                                 value="{{ old('costo_adulto', $promocion->costo_adulto) }}" />
@@ -59,13 +54,6 @@
                             <label for="costo_ninio">Costo Niño</label>
                             <input type="number" required name="costo_ninio" class="mb-2 p-2 border rounded w-full"
                                 value="{{ old('costo_ninio', $promocion->costo_ninio) }}" />
-
-                            <label for="promocion" class="flex items-center">
-                                <input type="hidden" name="promocion" value="0">
-                                <input type="checkbox" name="promocion" value="1" class="form-checkbox mr-2"
-                                    {{ $promocion->promocion ? 'checked' : '' }}>
-                                <span class="ml-2">Promoción</span>
-                            </label>
 
                             <div class="flex items-center p-4 md:p-5 border-gray-200 rounded-b dark:border-gray-600">
                                 <button data-modal-hide="default-modal" type="submit"
@@ -77,8 +65,5 @@
             </div>
         </div>
     </div>
-
-
-
 
 </x-app-layout>
