@@ -1,97 +1,85 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <div class="w-1/2">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Correos') }}
-                </h2>
-            </div>
-            <div class="w-1/2 text-right">
-                <button data-modal-target="default-modal" data-modal-toggle="default-modal"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button">
-                    <i class="fas fa-plus mr-2"></i> Nuevo
-                </button>
+@section('main')
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-            </div>
-        </div>
-    </x-slot>
+            <nav class="flex mb-5" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li class="inline-flex items-center">
+                        <a
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                            <span class="font-black text-3xl">
+                                <i class="fas fa-envelope text-blue-500"></i>
+                                <span class="text-blue-500">Correos</span>
+                            </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="mb-4">
-                        <input type="text" id="search_correos" placeholder="Buscar..."
-                            class="border p-2 rounded w-60" oninput="search_correos()">
+                        <input type="text" id="search_correos" placeholder="Buscar..." class="border p-2 rounded w-60"
+                            oninput="search_correos()">
                     </div>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2">
+                        <table class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400 dark:border-gray-700">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 font-semibold">
+                                    <th scope="col" class="py-3 font-semibold px-4">
                                         Nombre
                                     </th>
-                                    <th scope="col" class="px-6 py-3 font-semibold">
+                                    <th scope="col" class="py-3 font-semibold px-4">
                                         Correo
                                     </th>
-                                    <th scope="col" class="px-6 py-3 font-semibold">
+                                    <th scope="col" class="py-3 font-semibold px-4">
                                         Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($correos as $correos)
-                                    <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
-                                        <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            <span>{{ $correos->nombre }}</span>
+                                @forelse ($correos as $correo)
+                                    <tr class="bg-white dark:bg-gray-800 border-b-2">
+                                        <td class="h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                            <span>{{ $correo->nombre }}</span>
                                         </td>
-                                        <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            <span>{{ $correos->email }}</span>
+                                        <td class="h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                            <span>{{ $correo->email }}</span>
                                         </td>
-                                        <td class="relative">
-                                            <button
-                                                class="h-10 w-10 bg-gray-400 rounded text-gray-50 hover:text-gray-800 focus:outline-none"
-                                                onclick="toggleDropdown('{{ $correos->id }}')">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-
-                                            <div id="dropdown-{{ $correos->id }}"
-                                                class="absolute right-0 mt-2 bg-white border dark:border-gray-700 rounded-md shadow-md hidden"
-                                                style="z-index: 1000;">
-
-                                                <a href="{{ route('correos.edit', $correos->id) }}"
-                                                    class="block w-full px-4 py-2 text-green-600 hover:bg-gray-100">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-
-                                                <form method="POST"
-                                                    action="{{ route('correos.destroy', $correos->id) }}"
-                                                    onsubmit="return confirm('¿Estás seguro?')"
-                                                    class="block w-full px-4 py-2 text-red-600 hover:bg-gray-100">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="w-full focus:outline-none">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                        <td class="flex items-center justify-center h-16 px-4">
+                                            <a href="{{ route('correos.edit', $correo->id) }}"
+                                                class="w-5 h-7 border-2 rounded px-4 py-2 text-green-600 flex items-center justify-center border-r">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" action="{{ route('correos.destroy', $correo->id) }}"
+                                                onsubmit="return confirm('¿Estás seguro?')"
+                                                class="w-5 h-7 border-2 rounded ms-2 px-4 py-2 text-red-600 flex items-center justify-center">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="focus:outline-none flex items-center justify-center">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="p-4 text-center text-gray-500 dark:text-gray-400">
+                                        <td colspan="3" class="p-4 text-center text-gray-500 dark:text-gray-400">
                                             No hay correos disponibles.
                                         </td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
+                        
+
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 
@@ -134,6 +122,4 @@
             </div>
         </div>
     </div>
-
-
-</x-app-layout>
+@endsection

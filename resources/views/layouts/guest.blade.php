@@ -19,7 +19,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
                 <a>
-                    <img src="{{ asset('img/logo.png') }}" alt="Logo" class="w-32 h-36 mx-auto mb-2">
+                    <x-application-logo class="h-20 fill-current text-gray-500" />
                 </a>
             </div>
 

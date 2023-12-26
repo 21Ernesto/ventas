@@ -1,25 +1,23 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <div class="w-1/2">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Correos') }}
-                </h2>
-            </div>
-            <div class="w-1/2 text-right">
-                <a href="{{ route('correos.index') }}"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button">
-                    Lista
-                </a>
+@section('main')
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-            </div>
-        </div>
-    </x-slot>
+            <nav class="flex mb-5" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li class="inline-flex items-center">
+                        <a
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                            <span class="font-black text-3xl">
+                                <i class="fas fa-envelope text-blue-500"></i>
+                                <span class="text-blue-500">Editar correo</span>
+                            </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg">
                 <div class="text-gray-900 dark:text-gray-100">
                     <div class="relative overflow-x-auto sm:rounded-lg p-5">
@@ -45,10 +43,10 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
 
+@endsection
 
-
-</x-app-layout>

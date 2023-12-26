@@ -1,17 +1,24 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <div class="w-1/2">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Ventas') }}
-                </h2>
-            </div>
-        </div>
-    </x-slot>
+@section('main')
+    <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <nav class="flex mb-5" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li class="inline-flex items-center">
+                        <a
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                            <span class="font-black text-3xl">
+                                <i class="fas fa-chart-line text-blue-500"></i>
+                                <span class="text-blue-500">Ventas</span>
+                            </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="mb-4">
@@ -51,7 +58,7 @@
                                     <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
                                         <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ substr($venta->id, 0, 13) }}
-                                        </td>                                        
+                                        </td>
                                         <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $venta->nombre }}
                                         </td>
@@ -83,6 +90,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -146,6 +154,4 @@
                 });
         });
     </script>
-
-
-</x-app-layout>
+@endsection

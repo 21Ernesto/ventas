@@ -15,12 +15,12 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
+    
+    public function index()
     {
-        return view('auth.register');
+        $usuarios = User::all();
+
+        return view('admin.user.usuario', compact('usuarios'));
     }
 
     /**
@@ -42,10 +42,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        return redirect()->route('registro');
 
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
     }
 }
