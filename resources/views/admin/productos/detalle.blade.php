@@ -68,6 +68,13 @@
                             <p class="text-sm text-gray-500 mt-1">Ingrese una dirección de correo electrónico válida.</p>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="cantidad_dias" class="block text-sm font-semibold text-gray-600">Cantidad de
+                                días:</label>
+                            <input type="number" id="cantidad_dias" name="cantidad_dias" required
+                                class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                        </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <!-- Cantidad de Adultos -->
                             <div>
@@ -109,13 +116,26 @@
                     </form>
                 </div>
             </div>
+
+
+
         </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 p-4 bg-white dark:bg-gray-800">
+        @php
+            $companyName = 'DIM3NSOFT';
+            $companyUrl = 'https://dim3nsoft.com.mx/';
+        @endphp
+    
+        <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
     </div>
 
 
     <script>
         const cantidadAdultosInput = document.getElementById('cantidad_adultos');
         const cantidadNiniosInput = document.getElementById('cantidad_ninio');
+        const cantidadDiasInput = document.getElementById('cantidad_dias');
         const totalElement = document.getElementById('total');
 
         const costoAdultoValue = parseFloat("{{ $promocion->costo_adulto }}");
@@ -124,18 +144,21 @@
 
         cantidadAdultosInput.addEventListener('input', calcularTotal);
         cantidadNiniosInput.addEventListener('input', calcularTotal);
+        cantidadDiasInput.addEventListener('input', calcularTotal);
 
         function calcularTotal() {
             const cantidadAdultos = parseInt(cantidadAdultosInput.value) || 0;
             const cantidadNinios = parseInt(cantidadNiniosInput.value) || 0;
+            const cantidadDias = parseInt(cantidadDiasInput.value) || 1; // Se asume al menos un día
 
             let total;
 
             // Ajustar el cálculo si es una promoción "dos por uno"
             if (esPromocion) {
-                total = Math.ceil((costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) / 2);
+                total = Math.ceil((costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) / 2) *
+                    cantidadDias;
             } else {
-                total = costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios;
+                total = (costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) * cantidadDias;
             }
 
             // Mostrar el total
@@ -143,7 +166,6 @@
                 totalElement.textContent = 'Total: $' + total.toFixed(2);
             }
         }
-
 
 
 

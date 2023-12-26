@@ -33,7 +33,7 @@
 
     <div>
         @php
-            $companyName = 'DIM3SOFT';
+            $companyName = 'DIM3NSOFT';
             $companyUrl = 'https://dim3nsoft.com.mx/';
         @endphp
 

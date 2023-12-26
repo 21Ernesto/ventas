@@ -16,7 +16,7 @@ class PromoVendidos extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['nombre_paquete', 'telefono', 'nombre', 'correo', 'cantidad_adultos', 'cantidad_ninio', 'total'];
+    protected $fillable = ['nombre_paquete', 'telefono', 'nombre', 'correo', 'cantidad_adultos', 'cantidad_ninio', 'cantidad_dias', 'total'];
 
 
     protected static function boot()

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->integer('cantidad_adultos');
             $table->integer('cantidad_ninio');
+            $table->integer('cantidad_dias');
             $table->double('total');
             $table->timestamps();
         });

@@ -38,6 +38,7 @@ class PromoVendidosController extends Controller
             'cantidad_adultos' => 'required|integer|min:1',
             'cantidad_ninio' => 'required|integer|min:0',
             'nombre_paquete' => 'required|string',
+            'cantidad_dias' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -50,6 +51,7 @@ class PromoVendidosController extends Controller
         $correo = $request->input('correo');
         $cantidadAdultos = $request->input('cantidad_adultos');
         $cantidadNinios = $request->input('cantidad_ninio', 0);
+        $cantidad_dias = $request->input('cantidad_dias');
 
         $costoAdulto = $request->input('costo_adulto', 0);
         $costoNinio = $request->input('costo_ninio', 0);
@@ -77,6 +79,7 @@ class PromoVendidosController extends Controller
                 'correo' => $correo,
                 'cantidad_adultos' => $cantidadAdultos,
                 'cantidad_ninio' => $cantidadNinios,
+                'cantidad_dias' => $cantidad_dias,
                 'total' => $total,
             ]);
 

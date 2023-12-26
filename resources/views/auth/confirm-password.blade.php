@@ -24,4 +24,12 @@
             </x-primary-button>
         </div>
     </form>
+    <div>
+        @php
+            $companyName = 'DIM3NSOFT';
+            $companyUrl = 'https://dim3nsoft.com.mx/';
+        @endphp
+
+        <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
+    </div>
 </x-guest-layout>
