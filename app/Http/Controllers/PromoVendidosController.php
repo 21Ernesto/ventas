@@ -88,7 +88,9 @@ class PromoVendidosController extends Controller
                 foreach ($correos as $correoDestino) {
                     Mail::to($correoDestino)->send(new CorreoAdmin($compra));
                 }
-                return view('comprafinalizada');
+
+                return redirect()->route('comprafinalizada');
+
 
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', $e->getMessage())->withInput();

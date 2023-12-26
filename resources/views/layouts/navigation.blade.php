@@ -103,5 +103,15 @@
                 </x-responsive-nav-link>
             </li>
         </ul>
+        <div class="fixed bottom-0 left-0 p-4 bg-white dark:bg-gray-800">
+            @php
+                $companyName = 'DIM3SOFT';
+                $companyUrl = 'https://dim3nsoft.com.mx/';
+            @endphp
+        
+            <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
+        </div>
+        
     </div>
+    
 </aside>

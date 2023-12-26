@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CorreosController;
 use App\Http\Controllers\DashboardController;
@@ -26,18 +28,18 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+
+Route::post('/promo_producto', [PromoVendidosController::class, 'store'])->name('promo.store');
+Route::get('/productos/detalle/{promociones}', [PromocionesController::class, 'show'])->name('productos.show');
+
 Route::get('/comprafinalizada', function () {
     return view('comprafinalizada');
 })->name('comprafinalizada');
-
-
 
 // Rutas de inicio de sesión y registro (para usuarios no autenticados)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-    
-    
 });
 
 // Rutas protegidas por autenticación
@@ -51,6 +53,7 @@ Route::middleware(['auth', 'preventBackHistory'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    
     Route::get('/productos', [PromocionesController::class, 'index'])->name('productos.index');
     Route::get('/productos/editar/{promociones}', [PromocionesController::class, 'edit'])->name('productos.edit');
     Route::post('/productos', [PromocionesController::class, 'store'])->name('productos.store');
@@ -68,6 +71,9 @@ Route::middleware(['auth', 'preventBackHistory'])->group(function () {
     Route::get('/ventas', [PromoVendidosController::class, 'index'])->name('ventas.index');
 
 
+
     Route::get('/registro', [RegisteredUserController::class, 'index'])->name('registro');
     Route::post('/register-store', [RegisteredUserController::class, 'store'])->name('registro.store');
 });
+
+require __DIR__ . '/auth.php';

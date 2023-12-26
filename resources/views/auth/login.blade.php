@@ -8,7 +8,8 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Correo electrónico')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -16,10 +17,8 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Contraseña')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -31,4 +30,14 @@
             </x-primary-button>
         </div>
     </form>
+
+    <div>
+        @php
+            $companyName = 'DIM3SOFT';
+            $companyUrl = 'https://dim3nsoft.com.mx/';
+        @endphp
+
+        <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
+    </div>
+    
 </x-guest-layout>
