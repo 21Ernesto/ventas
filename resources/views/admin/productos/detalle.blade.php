@@ -11,7 +11,8 @@
                     </div>
 
                     @if ($promocion->imagen)
-                        <img src="{{ asset($promocion->imagen) }}" alt="Imagen actual del paquete" class="w-full h-96">
+                        <img src="{{ asset($promocion->imagen) }}" alt="Imagen actual del paquete"
+                            class="w-full h-96">
                     @else
                         <span class="font-semibold pb-7">No hay imagen disponible</span>
                     @endif
@@ -127,7 +128,7 @@
             $companyName = 'DIM3NSOFT';
             $companyUrl = 'https://dim3nsoft.com.mx/';
         @endphp
-    
+
         <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
     </div>
 

@@ -6,6 +6,7 @@ use App\Models\Promociones;
 use App\Http\Requests\StorePromocionesRequest;
 use App\Http\Requests\UpdatePromocionesRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PromocionesController extends Controller
 {
@@ -31,13 +32,15 @@ class PromocionesController extends Controller
             'costo_ninio' => 'required|numeric',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
-        // Almacenar la imagen en la carpeta public/imagenes
-        $rutaImagen = $request->hasFile('imagen') ? $request->file('imagen')->store('public/imagenes') : null;
-    
-        // Ajustar la ruta de almacenamiento para que sea pública
-        $rutaImagen = $rutaImagen ? str_replace('public/', 'storage/', $rutaImagen) : null;
-    
+
+        $rutaImagen = null;
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $rutaImagen = 'imagenes/' . time() . '.' . $imagen->getClientOriginalExtension();
+            $imagen->move(public_path('imagenes'), $rutaImagen);
+        }
+
         $promocion = Promociones::create([
             'nombre_paquete' => $request->input('nombre_paquete'),
             'descripcion_paquete' => $request->input('descripcion_paquete'),
@@ -45,10 +48,10 @@ class PromocionesController extends Controller
             'costo_ninio' => $request->input('costo_ninio'),
             'imagen' => $rutaImagen,
         ]);
-    
+
         return redirect()->route('productos.index');
     }
-    
+
 
     public function show(Promociones $promociones)
     {
@@ -76,22 +79,31 @@ class PromocionesController extends Controller
         $request->validate([
             'nombre_paquete' => 'required|string|max:255',
             'descripcion_paquete' => 'required|string',
-            // 'catindad_dias' => 'required|integer',
             'costo_adulto' => 'required|numeric',
             'costo_ninio' => 'required|numeric',
+            'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $data = [
             'nombre_paquete' => $request->input('nombre_paquete'),
             'descripcion_paquete' => $request->input('descripcion_paquete'),
-            // 'catindad_dias' => $request->input('catindad_dias'),
             'costo_adulto' => $request->input('costo_adulto'),
             'costo_ninio' => $request->input('costo_ninio'),
         ];
 
         if ($request->hasFile('imagen')) {
-            $rutaImagen = $request->file('imagen')->store('public/imagenes');
-            $rutaImagen = str_replace('public/', 'storage/', $rutaImagen);
+            if ($promociones->imagen) {
+                $rutaImagenAnterior = public_path($promociones->imagen);
+                if (file_exists($rutaImagenAnterior)) {
+                    unlink($rutaImagenAnterior);
+                }
+            }
+
+            // Guardar la nueva imagen
+            $imagen = $request->file('imagen');
+            $rutaImagen = 'imagenes/' . time() . '.' . $imagen->getClientOriginalExtension();
+            $imagen->move(public_path('imagenes'), $rutaImagen);
+
             $data['imagen'] = $rutaImagen;
         }
 

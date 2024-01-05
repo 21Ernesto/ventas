@@ -71,10 +71,10 @@
                                                 class="h-12">
                                         </td>
                                         <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
-                                            <span>{{ $promocion->costo_adulto }}</span>
+                                            <span>$ {{ $promocion->costo_adulto }} MXN</span>
                                         </td>
                                         <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
-                                            <span>{{ $promocion->costo_ninio }}</span>
+                                            <span>$ {{ $promocion->costo_ninio }} MXN</span>
                                         </td>
                                         <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <span
@@ -135,7 +135,6 @@
                                 @endforelse
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

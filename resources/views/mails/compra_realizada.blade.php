@@ -30,8 +30,8 @@
                             <h2 style="color: #1a202c; font-size: 18px;">Datos del cliente</h2>
                             <ul style="list-style: none; padding: 0; margin: 0;">
                                 <li><strong>Folio:</strong> {{ substr($compra->id, 0, 13) }}</li>
-                                <li><strong>Nombre del cliente:</strong> {{ $compra->nombre }}</li>
-                                <li><strong>Correo electrónico del cliente:</strong> {{ $compra->correo }}</li>
+                                <li><strong>Nombre:</strong> {{ $compra->nombre }}</li>
+                                <li><strong>Correo electrónico:</strong> {{ $compra->correo }}</li>
                             </ul>
                         </td>
                     </tr>

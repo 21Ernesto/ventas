@@ -72,7 +72,7 @@
                                             {{ $venta->cantidad_ninio }}
                                         </td>
                                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $venta->total }}
+                                            $ {{ $venta->total }} MXN
                                         </td>
                                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $venta->created_at }}
