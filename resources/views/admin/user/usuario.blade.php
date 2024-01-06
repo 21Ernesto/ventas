@@ -40,6 +40,9 @@
                             <th scope="col" class="text-center py-3 font-semibold px-4">
                                 Correo Electrónico
                             </th>
+                            <th scope="col" class="text-center py-3 font-semibold px-4">
+                                Rol
+                            </th>
 
                         </tr>
                     </thead>
@@ -53,6 +56,10 @@
                                 <td
                                     class="text-center h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                     {{ $usuario->email }}
+                                </td>
+                                <td
+                                    class="text-center h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                    {{ $usuario->role }}
                                 </td>
                             </tr>
                         @empty
@@ -90,7 +97,7 @@
                         @csrf
 
                         <!-- Nombre -->
-                        <div class="mt-4">
+                        <div>
                             <x-input-label for="name" :value="__('Nombre')" />
                             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
                                 :value="old('name')" required autofocus autocomplete="name" />
@@ -124,6 +131,16 @@
 
                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                         </div>
+
+                        <div class="mt-4">
+                            <label for="role">Roles</label>
+                            <select id="role" name="role"
+                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                                <option value="vendedor">Vendedor</option>
+                                <option value="administrador">Administrador</option>
+                            </select>
+                        </div>
+
 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ms-4">

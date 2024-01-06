@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promociones;
-use App\Http\Requests\StorePromocionesRequest;
-use App\Http\Requests\UpdatePromocionesRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PromocionesController extends Controller
 {
@@ -28,8 +25,13 @@ class PromocionesController extends Controller
         $request->validate([
             'nombre_paquete' => 'required|string|max:255',
             'descripcion_paquete' => 'required|string',
+            'costo_adulto_pro' => 'required|numeric',
+            'costo_ninio_pro' => 'required|numeric',
             'costo_adulto' => 'required|numeric',
             'costo_ninio' => 'required|numeric',
+            'rango_edad' => 'required|string',
+            'correo_1' => 'required|string',
+            'correo_2' => 'required|string',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -44,8 +46,13 @@ class PromocionesController extends Controller
         $promocion = Promociones::create([
             'nombre_paquete' => $request->input('nombre_paquete'),
             'descripcion_paquete' => $request->input('descripcion_paquete'),
+            'costo_adulto_pro' => $request->input('costo_adulto_pro'),
+            'costo_ninio_pro' => $request->input('costo_ninio_pro'),
             'costo_adulto' => $request->input('costo_adulto'),
             'costo_ninio' => $request->input('costo_ninio'),
+            'rango_edad' => $request->input('rango_edad'),
+            'correo_1' => $request->input('correo_1'),
+            'correo_2' => $request->input('correo_2'),
             'imagen' => $rutaImagen,
         ]);
 
@@ -56,11 +63,12 @@ class PromocionesController extends Controller
     public function show(Promociones $promociones)
     {
         $promocion = Promociones::find($promociones->id);
+        $fechaActual = now()->format('Y-m-d');
 
         if (!$promocion) {
             abort(404, 'La promoción no fue encontrada');
         }
-        return view('admin.productos.detalle', ['promocion' => $promocion]);
+        return view('admin.productos.detalle', ['promocion' => $promocion, 'fechaActual' => $fechaActual]);
     }
 
 
@@ -79,16 +87,26 @@ class PromocionesController extends Controller
         $request->validate([
             'nombre_paquete' => 'required|string|max:255',
             'descripcion_paquete' => 'required|string',
+            'costo_adulto_pro' => 'required|numeric',
+            'costo_ninio_pro' => 'required|numeric',
             'costo_adulto' => 'required|numeric',
             'costo_ninio' => 'required|numeric',
+            'rango_edad' => 'required|string',
+            'correo_1' => 'required|string',
+            'correo_2' => 'required|string',
             'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $data = [
             'nombre_paquete' => $request->input('nombre_paquete'),
             'descripcion_paquete' => $request->input('descripcion_paquete'),
+            'costo_adulto_pro' => $request->input('costo_adulto_pro'),
+            'costo_ninio_pro' => $request->input('costo_ninio_pro'),
             'costo_adulto' => $request->input('costo_adulto'),
             'costo_ninio' => $request->input('costo_ninio'),
+            'rango_edad' => $request->input('rango_edad'),
+            'correo_1' => $request->input('correo_1'),
+            'correo_2' => $request->input('correo_2'),
         ];
 
         if ($request->hasFile('imagen')) {

@@ -15,9 +15,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nombre_paquete');
             $table->text('descripcion_paquete');
-            // $table->integer('catindad_dias');
+            $table->double('costo_adulto_pro');
+            $table->double('costo_ninio_pro');
             $table->double('costo_adulto');
             $table->double('costo_ninio');
+            $table->string('rango_edad');
+            $table->string('correo_1')->nullable();
+            $table->string('correo_2')->nullable();
             $table->string('imagen')->nullable();
             $table->integer('promocion')->default(0);
 

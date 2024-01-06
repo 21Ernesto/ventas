@@ -20,8 +20,9 @@ class DashboardController extends Controller
         $totalProductos = Promociones::count();
         $totalCorreos = Correos::count();
         $totalVendidos = PromoVendidos::count(); 
+        $gananciasTotales = PromoVendidos::sum('total');
 
-        return view('dashboard', compact('totalPromociones', 'totalProductos', 'totalCorreos', 'totalVendidos'));
+        return view('dashboard', compact('totalPromociones', 'totalProductos', 'totalCorreos', 'totalVendidos', 'gananciasTotales'));
     }
 
     /**

@@ -19,7 +19,8 @@
                 </ol>
             </nav>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 flex-auto items-center">
+
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100 flex items-center">
                         <i class="fas fa-tag text-gray-500 text-7xl"></i>
@@ -56,6 +57,19 @@
                         <div class="ms-4">
                             <span class="block text">Vendidos</span>
                             <span class="font-bold text-2xl">{{ $totalVendidos }}</span>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 mb-4 flex-auto items-center">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100 flex items-center">
+                        <i class="fas fa-dollar-sign text-green-500 text-7xl"></i>
+                        <div class="ms-4">
+                            <span class="block text">Ganancias Totales</span>
+                            <span class="font-bold text-xl">$ {{ number_format($gananciasTotales, 2, '.', ',') }}</span>
+
                         </div>
                     </div>
                 </div>

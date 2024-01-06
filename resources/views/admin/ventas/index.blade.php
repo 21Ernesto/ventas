@@ -21,10 +21,38 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="mb-4">
-                        <input type="text" id="search_ventas" placeholder="Buscar..." class="border p-2 rounded w-60"
-                            oninput="search_ventas()">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 flex-auto items-center">
+                        <div>
+                            <label for="search_ventas">
+                                <input type="text" id="search_ventas" placeholder="Buscar..."
+                                    class="border p-2 rounded w-full" oninput="search_ventas()">
+                            </label>
+                        </div>
+                        <div>
+                            <label for="fecha">
+                                <b>Fecha:</b>
+                                <input type="date" name="fecha" value="{{ $fechaActual }}" id="fecha"
+                                    oninput="searchVentasFecha()">
+                            </label>
+                        </div>
+                        <div>
+                            <p>
+                                <span><b>Diferencial:</b>
+                                    $<span id="diferencial">0.00</span>
+                                </span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <p>
+                                <span><b>Ganancias:</b>
+                                    $<span id="ganancias">0.00</span>
+                                </span>
+                            </p>
+                        </div>
                     </div>
+
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead
@@ -53,7 +81,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="ventasTableBody">
                                 @forelse ($ventas as $venta)
                                     <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
                                         <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -72,7 +100,7 @@
                                             {{ $venta->cantidad_ninio }}
                                         </td>
                                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            $ {{ $venta->total }} MXN
+                                            $ {{ number_format($venta->total) }}
                                         </td>
                                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $venta->created_at }}
@@ -90,11 +118,67 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
+        $(document).ready(function() {
+            searchVentasFecha();
+        });
+
+        function searchVentasFecha() {
+            var fecha = $('#fecha').val();
+
+            $.ajax({
+                url: "{{ route('ventas.index') }}",
+                type: 'GET',
+                data: {
+                    fecha: fecha
+                },
+                success: function(response) {
+                    // Actualizar el diferencial y ganancias
+                    $('#diferencial').text(response.diferencial);
+                    $('#ganancias').text(response.ganancias);
+
+                    // Actualizar la tabla con los nuevos resultados
+                    var ventasTableBody = $('#ventasTableBody');
+                    ventasTableBody.empty();
+
+                    $.each(response.ventas, function(index, venta) {
+                        var newRow = `
+                        <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
+                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ substr($venta->id, 0, 13) }}
+                            </td>
+                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $venta->nombre }}
+                            </td>
+                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $venta->correo }}
+                            </td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $venta->cantidad_adultos }}
+                            </td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $venta->cantidad_ninio }}
+                            </td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                $ {{ number_format($venta->total) }}
+                            </td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                {{ $venta->created_at }}
+                            </td>
+                        </tr>
+                    `;
+                    ventasTableBody.append(newRow);
+                    });
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
         function search_ventas() {
             let input, filter, table, tr, txtUuid, tdName, tdEmail, i, txtValueName, txtValueEmail, txtValueUuid;
             input = document.getElementById("search_ventas");
@@ -153,5 +237,29 @@
                     console.error('Error al realizar la búsqueda:', error);
                 });
         });
+
+        // function searchVentasFecha() {
+        //     let inputDate, filterDate, table, tr, tdDate, i, txtValueDate;
+
+        //     inputDate = document.getElementById("fecha");
+        //     filterDate = inputDate.value;
+
+        //     table = document.querySelector("table");
+        //     tr = table.getElementsByTagName("tr");
+
+        //     for (i = 1; i < tr.length; i++) {
+        //         tdDate = tr[i].getElementsByTagName("td")[6]; // Cambia el índice según la posición de la columna de fecha
+
+        //         if (tdDate) {
+        //             txtValueDate = tdDate.textContent || tdDate.innerText;
+
+        //             if (txtValueDate.includes(filterDate) || filterDate === "") {
+        //                 tr[i].style.display = "";
+        //             } else {
+        //                 tr[i].style.display = "none";
+        //             }
+        //         }
+        //     }
+        // }
     </script>
 @endsection

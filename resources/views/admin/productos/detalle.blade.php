@@ -11,17 +11,15 @@
                     </div>
 
                     @if ($promocion->imagen)
-                        <img src="{{ asset($promocion->imagen) }}" alt="Imagen actual del paquete"
-                            class="w-full h-96">
+                        <img src="{{ asset($promocion->imagen) }}" alt="Imagen actual del paquete" class="w-full h-96">
                     @else
                         <span class="font-semibold pb-7">No hay imagen disponible</span>
                     @endif
 
-                    <p class="text-base mb-4 mt-3">{{ $promocion->descripcion_paquete }}</p>
-                    <p class="text-base mb-4"><span class="font-semibold">Costo Adulto:</span> $
-                        {{ $promocion->costo_adulto }}</p>
-                    <p class="text-base mb-4"><span class="font-semibold">Costo Niño:</span> $ {{ $promocion->costo_ninio }}
-                    </p>
+                    <p class="text-base mb-2 mt-3">{{ $promocion->descripcion_paquete }}</p>
+                    <p class="text-base mb-2"><span class="font-semibold">Costo Adulto:</span> ${{ $promocion->costo_adulto }}</p>
+                    <p class="text-base mb-2"><span class="font-semibold">Costo Niño:</span> $ {{ $promocion->costo_ninio }}</p>
+                    <p class="text-base mb-2"><span class="font-semibold">Rango edad:</span> {{ $promocion->rango_edad }}</p>
 
                     @if ($promocion->promocion)
                         <div class="text-center">
@@ -42,10 +40,13 @@
                         @csrf
 
                         <input type="hidden" name="nombre_paquete" value="{{ $promocion->nombre_paquete }}">
+                        <input type="hidden" name="costo_real_adul" value="{{ $promocion->costo_adulto_pro }}">
+                        <input type="hidden" name="costo_real_nini" value="{{ $promocion->costo_ninio_pro }}">
                         <input type="hidden" name="costo_adulto" value="{{ $promocion->costo_adulto }}">
                         <input type="hidden" name="costo_ninio" value="{{ $promocion->costo_ninio }}">
                         <input type="hidden" name="es_promocion" value="{{ $promocion->promocion ? 'true' : 'false' }}">
-
+                        <input type="hidden" name="correo_1" value="{{ $promocion->correo_1 }}">
+                        <input type="hidden" name="correo_2" value="{{ $promocion->correo_2 }}">
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <div class="mb-4">
@@ -65,19 +66,28 @@
                                 electrónico:</label>
                             <input type="email" id="correo" name="correo" required
                                 class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                            <!-- Nota -->
                             <p class="text-sm text-gray-500 mt-1">Ingrese una dirección de correo electrónico válida.</p>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="cantidad_dias" class="block text-sm font-semibold text-gray-600">Cantidad de
-                                días:</label>
-                            <input type="number" id="cantidad_dias" name="cantidad_dias" required
-                                class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="fecha_llegada" class="block text-sm font-semibold text-gray-600">Fecha de
+                                    llegada:</label>
+                                <input type="date" id="fecha_llegada" name="fecha_llegada" required
+                                    class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                                    value="{{ $fechaActual }}" onchange="validarFechas()">
+                            </div>
+
+                            <div>
+                                <label for="fecha_salida" class="block text-sm font-semibold text-gray-600">Fecha de
+                                    salida:</label>
+                                <input type="date" id="fecha_salida" name="fecha_salida" required
+                                    class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                                    value="{{ $fechaActual }}" onchange="validarFechas()">
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                            <!-- Cantidad de Adultos -->
                             <div>
                                 <label for="cantidad_adultos" class="block text-sm font-semibold text-gray-600">Cantidad de
                                     Adultos:</label>
@@ -86,7 +96,6 @@
                                     class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             </div>
 
-                            <!-- Cantidad de Niños -->
                             <div>
                                 <label for="cantidad_ninio" class="block text-sm font-semibold text-gray-600">Cantidad de
                                     Niños:</label>
@@ -95,22 +104,25 @@
                                     class="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             </div>
                         </div>
-
+                        <div class="mb-4">
+                            <label>
+                                <input type="checkbox" id="aceptoTerminos" name="aceptoTerminos">
+                                <span class="text-gray-400"><a href="#">Términos y condiciones de la cancelación </a></span>
+                            </label>
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap mb-4 flex-col items-center h-full">
                             <div>
                                 <p id="total" class="text-base font-semibold mt-4">Total: 0</p>
                             </div>
 
-                            <!-- Elemento de Stripe para la entrada de tarjeta -->
                             <div id="card-element"
                                 class="p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"></div>
 
-                            <!-- Usado para mostrar errores de Stripe -->
                             <div id="card-errors" role="alert" class="text-red-500"></div>
 
-                            <!-- Botón de pago -->
                             <button id="submit-button"
-                                class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300">
+                                class="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300 disabled:opacity-50 disabled:bg-gray-300"
+                                disabled>
                                 Realizar Compra
                             </button>
                         </div>
@@ -123,7 +135,7 @@
         </div>
     </div>
 
-    <div class="fixed bottom-0 left-0 p-4 bg-white dark:bg-gray-800">
+    <div class="fixed bottom-0 left-0 p-2 bg-white dark:bg-gray-800">
         @php
             $companyName = 'DIM3NSOFT';
             $companyUrl = 'https://dim3nsoft.com.mx/';
@@ -134,9 +146,15 @@
 
 
     <script>
+        const checkbox = document.getElementById('aceptoTerminos');
+        const submitButton = document.getElementById('submit-button');
+
+        checkbox.addEventListener('change', function() {
+            submitButton.disabled = !this.checked;
+        });
+
         const cantidadAdultosInput = document.getElementById('cantidad_adultos');
         const cantidadNiniosInput = document.getElementById('cantidad_ninio');
-        const cantidadDiasInput = document.getElementById('cantidad_dias');
         const totalElement = document.getElementById('total');
 
         const costoAdultoValue = parseFloat("{{ $promocion->costo_adulto }}");
@@ -145,21 +163,18 @@
 
         cantidadAdultosInput.addEventListener('input', calcularTotal);
         cantidadNiniosInput.addEventListener('input', calcularTotal);
-        cantidadDiasInput.addEventListener('input', calcularTotal);
 
         function calcularTotal() {
             const cantidadAdultos = parseInt(cantidadAdultosInput.value) || 0;
             const cantidadNinios = parseInt(cantidadNiniosInput.value) || 0;
-            const cantidadDias = parseInt(cantidadDiasInput.value) || 1; // Se asume al menos un día
 
             let total;
 
             // Ajustar el cálculo si es una promoción "dos por uno"
             if (esPromocion) {
-                total = Math.ceil((costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) / 2) *
-                    cantidadDias;
+                total = Math.ceil((costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) / 2);
             } else {
-                total = (costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios) * cantidadDias;
+                total = (costoAdultoValue * cantidadAdultos + costoNinioValue * cantidadNinios);
             }
 
             // Mostrar el total
@@ -230,5 +245,28 @@
                 }
             });
         });
+
+        function validarFechas() {
+            var fechaLlegada = new Date(document.getElementById('fecha_llegada').value);
+            var fechaSalida = new Date(document.getElementById('fecha_salida').value);
+            var fechaActual = new Date();
+
+            if (fechaLlegada < fechaActual) {
+                document.getElementById('fecha_llegada').value = obtenerFechaActual();
+            }
+
+            if (fechaSalida < fechaLlegada) {
+                document.getElementById('fecha_salida').value = document.getElementById('fecha_llegada').value;
+            }
+        }
+
+        function obtenerFechaActual() {
+            var fechaActual = new Date();
+            var dia = fechaActual.getDate().toString().padStart(2, '0');
+            var mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            var año = fechaActual.getFullYear();
+
+            return `${año}-${mes}-${dia}`;
+        }
     </script>
 @endsection

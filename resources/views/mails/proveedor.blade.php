@@ -30,8 +30,8 @@
                             <h2 style="color: #1a202c; font-size: 18px;">Datos del cliente</h2>
                             <ul style="list-style: none; padding: 0; margin: 0;">
                                 <li><strong>Folio:</strong> {{ substr($compra->id, 0, 13) }}</li>
-                                <li><strong>Nombre del cliente:</strong> {{ $compra->nombre }}</li>
-                                <li><strong>Correo electrónico del cliente:</strong> {{ $compra->correo }}</li>
+                                <li><strong>Nombre:</strong> {{ $compra->nombre }}</li>
+                                <li><strong>Correo electrónico:</strong> {{ $compra->correo }}</li>
                             </ul>
                         </td>
                     </tr>
@@ -40,7 +40,9 @@
                             <h2 style="color: #1a202c; font-size: 18px;">Detalles de la compra</h2>
                             <ul style="list-style: none; padding: 0; margin: 0;">
                                 <li><strong>Producto adquirido:</strong> {{ $compra->nombre_paquete }}</li>
-                                <li><strong>Fecha de entrada:</strong> {{ $compra->fecha_llegada }}</li>
+                                <li><strong>Precio de adulto:</strong> {{ $compra->costo_real_adul }}</li>
+                                <li><strong>Precio de niño:</strong> {{ $compra->costo_real_nini }}</li>
+                                <li><strong>Fecha de salida:</strong> {{ $compra->fecha_salida }}</li>
                                 <li><strong>Fecha de salida:</strong> {{ $compra->fecha_salida }}</li>
                                 <li><strong>Cantidad de adultos:</strong> {{ $compra->cantidad_adultos }}</li>
                                 <li><strong>Cantidad de niños:</strong> {{ $compra->cantidad_ninio }}</li>

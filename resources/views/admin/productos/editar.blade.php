@@ -46,13 +46,53 @@
                             <label for="descripcion_paquete">Descripción del Paquete</label>
                             <textarea required name="descripcion_paquete" class="mb-2 p-2 border rounded w-full">{{ old('descripcion_paquete', $promocion->descripcion_paquete) }}</textarea>
 
-                            <label for="costo_adulto">Costo Adulto</label>
-                            <input type="number" required name="costo_adulto" class="mb-2 p-2 border rounded w-full"
-                                value="{{ old('costo_adulto', $promocion->costo_adulto) }}" />
 
-                            <label for="costo_ninio">Costo Niño</label>
-                            <input type="number" required name="costo_ninio" class="mb-2 p-2 border rounded w-full"
-                                value="{{ old('costo_ninio', $promocion->costo_ninio) }}" />
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                                <div>
+                                    <label for="costo_adulto_pro">Costo Adulto (Proveedor)</label>
+                                    <input type="number" required name="costo_adulto_pro"
+                                        class="mb-2 p-2 border rounded w-full" value="{{ old('costo_ninio', $promocion->costo_adulto_pro) }}" />
+                                </div>
+
+                                <div>
+                                    <label for="costo_ninio_pro">Costo Niño (Proveedor)</label>
+                                    <input type="number" required name="costo_ninio_pro"
+                                        class="mb-2 p-2 border rounded w-full" value="{{ old('costo_ninio', $promocion->costo_ninio_pro) }}" />
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                                <div>
+                                    <label for="costo_adulto">Costo Adulto (Cliente)</label>
+                                    <input type="number" required name="costo_adulto"
+                                        class="mb-2 p-2 border rounded w-full"
+                                        value="{{ old('costo_ninio', $promocion->costo_adulto) }}" />
+                                </div>
+
+                                <div>
+                                    <label for="costo_ninio">Costo Niño (Proveedor)</label>
+                                    <input type="number" required name="costo_ninio" class="mb-2 p-2 border rounded w-full"
+                                        value="{{ old('costo_ninio', $promocion->costo_ninio) }}" />
+                                </div>
+                            </div>
+
+                            <label for="rango_edad">Rango edad</label>
+                            <input type="text" required name="rango_edad" class="mb-2 p-2 border rounded w-full" 
+                            value="{{ old('costo_ninio', $promocion->rango_edad) }}"/>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                                <div>
+                                    <label for="correo_1">Correo 1</label>
+                                    <input type="email" required name="correo_1" class="mb-2 p-2 border rounded w-full" 
+                                    value="{{ old('costo_ninio', $promocion->correo_1) }}" />
+                                </div>
+
+                                <div>
+                                    <label for="correo_2">Correo 2</label>
+                                    <input type="email" required name="correo_2" class="mb-2 p-2 border rounded w-full" 
+                                    value="{{ old('costo_ninio', $promocion->correo_2) }}"/>
+                                </div>
+                            </div>
 
                             <div class="flex items-center p-4 md:p-5 border-gray-200 rounded-b dark:border-gray-600">
                                 <button data-modal-hide="default-modal" type="submit"

@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('correo');
             $table->string('nombre');
+            $table->integer('costo_real_adul');
+            $table->integer('costo_real_nini');
             $table->integer('cantidad_adultos');
             $table->integer('cantidad_ninio');
-            $table->integer('cantidad_dias');
+            $table->date('fecha_llegada');
+            $table->date('fecha_salida');
             $table->double('total');
             $table->timestamps();
         });

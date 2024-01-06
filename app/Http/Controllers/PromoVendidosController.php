@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdatePromoVendidosRequest;
 use App\Mail\CompraRealizada;
 use App\Mail\CorreoAdmin;
+use App\Mail\Proveedor;
 use App\Models\Correos;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
@@ -19,10 +20,68 @@ use Stripe\Charge;
 class PromoVendidosController extends Controller
 {
 
-    public function index()
+    // public function index(Request $request)
+    // {
+    //     $fechaActual = now()->format('Y-m-d');
+    //     $fechaBusqueda = $request->input('fecha', $fechaActual);
+
+    //     $ventas = PromoVendidos::whereDate('created_at', $fechaBusqueda)->get();
+
+    //     if ($request->ajax()) {
+    //         $diferencial = number_format(
+    //             $ventas->sum(function ($venta) {
+    //                 return $venta->costo_real_adul + $venta->costo_real_nini;
+    //             }),
+    //             2,
+    //             '.',
+    //             ',',
+    //         );
+
+    //         $ganancias = number_format($ventas->sum('total'), 2, '.', ',');
+
+    //         return response()->json(['ventas' => $ventas, 'fechaActual' => $fechaActual, 'fechaBusqueda' => $fechaBusqueda, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
+    //     }
+
+    //     return view('admin.ventas.index', compact('ventas', 'fechaActual', 'fechaBusqueda'));
+    // }
+
+    public function index(Request $request)
     {
-        $ventas = PromoVendidos::all();
-        return view('admin.ventas.index', compact('ventas'));
+        $fechaActual = now()->format('Y-m-d');
+        $fechaBusqueda = $request->input('fecha', $fechaActual);
+
+        $ventas = PromoVendidos::whereDate('created_at', $fechaBusqueda)->get();
+
+        if ($request->ajax()) {
+            $diferencial = number_format(
+                $ventas->sum(function ($venta) {
+                    return $venta->costo_real_adul + $venta->costo_real_nini;
+                }),
+                2,
+                '.',
+                ','
+            );
+
+            $ganancias = number_format($ventas->sum('total'), 2, '.', ',');
+
+            $data = [];
+
+            foreach ($ventas as $venta) {
+                $data[] = [
+                    'id' => substr($venta->id, 0, 13),
+                    'nombre' => $venta->nombre,
+                    'correo' => $venta->correo,
+                    'cantidad_adultos' => $venta->cantidad_adultos,
+                    'cantidad_ninio' => $venta->cantidad_ninio,
+                    'total' => number_format($venta->total, 2, '.', ','),
+                    'created_at' => $venta->created_at,
+                ];
+            }
+
+            return response()->json(['ventas' => $data, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
+        }
+
+        return view('admin.ventas.index', compact('ventas', 'fechaActual', 'fechaBusqueda'));
     }
 
     public function create()
@@ -35,10 +94,13 @@ class PromoVendidosController extends Controller
             'nombre' => 'required|string',
             'telefono' => 'required|string',
             'correo' => 'required|email',
+            'costo_real_adul' => 'required|integer|min:1',
+            'costo_real_nini' => 'required|integer|min:1',
             'cantidad_adultos' => 'required|integer|min:1',
             'cantidad_ninio' => 'required|integer|min:0',
             'nombre_paquete' => 'required|string',
-            'cantidad_dias' => 'required|integer|min:1',
+            'fecha_llegada' => 'required|date',
+            'fecha_salida' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -49,9 +111,12 @@ class PromoVendidosController extends Controller
         $telefono = $request->input('telefono');
         $nombre = $request->input('nombre');
         $correo = $request->input('correo');
+        $costo_real_adul = $request->input('costo_real_adul');
+        $costo_real_nini = $request->input('costo_real_nini');
         $cantidadAdultos = $request->input('cantidad_adultos');
         $cantidadNinios = $request->input('cantidad_ninio', 0);
-        $cantidad_dias = $request->input('cantidad_dias');
+        $fecha_llegada = $request->input('fecha_llegada');
+        $fecha_salida = $request->input('fecha_salida');
 
         $costoAdulto = $request->input('costo_adulto', 0);
         $costoNinio = $request->input('costo_ninio', 0);
@@ -68,7 +133,7 @@ class PromoVendidosController extends Controller
                 'description' => 'Compra de ' . $nombre,
                 'receipt_email' => $correo,
                 'metadata' => [
-                    'Nombre' => $nombre, 
+                    'Nombre' => $nombre,
                 ],
             ]);
 
@@ -77,28 +142,34 @@ class PromoVendidosController extends Controller
                 'telefono' => $telefono,
                 'nombre' => $nombre,
                 'correo' => $correo,
+                'costo_real_adul' => $costo_real_adul,
+                'costo_real_nini' => $costo_real_nini,
                 'cantidad_adultos' => $cantidadAdultos,
                 'cantidad_ninio' => $cantidadNinios,
-                'cantidad_dias' => $cantidad_dias,
+                'fecha_llegada' => $fecha_llegada,
+                'fecha_salida' => $fecha_salida,
                 'total' => $total,
             ]);
 
             $correos = Correos::pluck('email')->toArray();
 
+            $correo_1 = $request->input('correo_1');
+            $correo_2 = $request->input('correo_2');
+
+            $correos_1_2 = [$correo_1, $correo_2];
+
             try {
                 Mail::to($correo)->send(new CompraRealizada($compra));
+                Mail::to($correos_1_2)->send(new Proveedor($compra));
 
                 foreach ($correos as $correoDestino) {
                     Mail::to($correoDestino)->send(new CorreoAdmin($compra));
                 }
 
                 return redirect()->route('comprafinalizada');
-
-
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', $e->getMessage())->withInput();
             }
-            
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->withInput();
         }

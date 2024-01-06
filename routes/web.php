@@ -36,14 +36,12 @@ Route::get('/comprafinalizada', function () {
     return view('comprafinalizada');
 })->name('comprafinalizada');
 
-// Rutas de inicio de sesión y registro (para usuarios no autenticados)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 });
 
-// Rutas protegidas por autenticación
-Route::middleware(['auth', 'preventBackHistory'])->group(function () {
+Route::middleware(['auth', 'preventBackHistory', 'checkRole:administrador'])->group(function () {
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
@@ -53,7 +51,6 @@ Route::middleware(['auth', 'preventBackHistory'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    
     Route::get('/productos', [PromocionesController::class, 'index'])->name('productos.index');
     Route::get('/productos/editar/{promociones}', [PromocionesController::class, 'edit'])->name('productos.edit');
     Route::post('/productos', [PromocionesController::class, 'store'])->name('productos.store');
@@ -70,10 +67,26 @@ Route::middleware(['auth', 'preventBackHistory'])->group(function () {
 
     Route::get('/ventas', [PromoVendidosController::class, 'index'])->name('ventas.index');
 
-
-
     Route::get('/registro', [RegisteredUserController::class, 'index'])->name('registro');
     Route::post('/register-store', [RegisteredUserController::class, 'store'])->name('registro.store');
+});
+
+Route::middleware(['auth', 'preventBackHistory', 'checkRole:vendedor'])->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/productos', [PromocionesController::class, 'index'])->name('productos.index');
+    Route::get('/productos/editar/{promociones}', [PromocionesController::class, 'edit'])->name('productos.edit');
+    Route::post('/productos', [PromocionesController::class, 'store'])->name('productos.store');
+    Route::patch('/productos/{promociones}', [PromocionesController::class, 'update'])->name('productos.update');
+    Route::patch('/productos/{promocion}/activate', [PromocionesController::class, 'activate'])->name('productos.activate');
+    Route::patch('/productos/{promocion}/deactivate', [PromocionesController::class, 'deactivate'])->name('productos.deactivate');
+    Route::delete('/productos/{promocion}', [PromocionesController::class, 'destroy'])->name('productos.destroy');
 });
 
 require __DIR__ . '/auth.php';

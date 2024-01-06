@@ -63,27 +63,32 @@
                             <tbody>
                                 @forelse ($promociones as $promocion)
                                     <tr class="bg-white dark:bg-gray-800 border-b-2">
-                                        <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                        <td
+                                            class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <span>{{ $promocion->nombre_paquete }}</span>
                                         </td>
-                                        <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                        <td
+                                            class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <img src="{{ asset($promocion->imagen) }}" alt="Imagen del paquete"
                                                 class="h-12">
                                         </td>
-                                        <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                        <td
+                                            class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <span>$ {{ $promocion->costo_adulto }} MXN</span>
                                         </td>
-                                        <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                        <td
+                                            class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <span>$ {{ $promocion->costo_ninio }} MXN</span>
                                         </td>
-                                        <td class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
+                                        <td
+                                            class="text-center  h-16 font-medium text-gray-900 whitespace-nowrap dark:text-white px-4">
                                             <span
                                                 class="inline-block px-2 py-1 rounded {{ $promocion->promocion ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800' }}">
                                                 {{ $promocion->promocion ? 'Activa' : 'Inactiva' }}
                                             </span>
                                         </td>
                                         <td class="flex items-center justify-center h-16">
-                                            <a href="{{ route('productos.show', $promocion->id) }}"
+                                            <a href="{{ route('productos.show', $promocion->id) }}" target="_blank"
                                                 class="w-5 h-7 border-2 rounded px-4 py-2 text-green-600 flex items-center justify-center border-r">
                                                 <i class="fas fa-eye"></i>
                                             </a>
@@ -169,18 +174,49 @@
                         <label for="descripcion_paquete">Descripción del Paquete</label>
                         <textarea required name="descripcion_paquete" class="mb-2 p-2 border rounded w-full"></textarea>
 
-                        {{-- <label for="catindad_dias">Cantidad de Días</label>
-                        <input type="number" required name="catindad_dias" class="mb-2 p-2 border rounded w-full" /> --}}
 
-                        <label for="costo_adulto">Costo Adulto</label>
-                        <input type="number" required name="costo_adulto" class="mb-2 p-2 border rounded w-full" />
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                            <div>
+                                <label for="costo_adulto_pro">Costo Adulto (Proveedor)</label>
+                                <input type="number" required name="costo_adulto_pro"
+                                    class="mb-2 p-2 border rounded w-full" />
+                            </div>
 
-                        <label for="costo_ninio">Costo Niño</label>
-                        <input type="number" required name="costo_ninio" class="mb-2 p-2 border rounded w-full" />
+                            <div>
+                                <label for="costo_ninio_pro">Costo Niño (Proveedor)</label>
+                                <input type="number" required name="costo_ninio_pro"
+                                    class="mb-2 p-2 border rounded w-full" />
+                            </div>
+                        </div>
 
-                        <label for="promocion" class="flex items-center">
-                            <input type="hidden" name="promocion" value="0">
-                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                            <div>
+                                <label for="costo_adulto">Costo Adulto (Cliente)</label>
+                                <input type="number" required name="costo_adulto"
+                                    class="mb-2 p-2 border rounded w-full" />
+                            </div>
+
+                            <div>
+                                <label for="costo_ninio">Costo Niño (Cliente)</label>
+                                <input type="number" required name="costo_ninio"
+                                    class="mb-2 p-2 border rounded w-full" />
+                            </div>
+                        </div>
+
+                        <label for="rango_edad">Rango edad</label>
+                        <input type="text" required name="rango_edad" class="mb-2 p-2 border rounded w-full" />
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
+                            <div>
+                                <label for="correo_1">Correo 1</label>
+                                <input type="email" required name="correo_1" class="mb-2 p-2 border rounded w-full" />
+                            </div>
+
+                            <div>
+                                <label for="correo_2">Correo 2</label>
+                                <input type="email" required name="correo_2" class="mb-2 p-2 border rounded w-full" />
+                            </div>
+                        </div>
 
                         <div class="flex items-center p-4 md:p-5 border-gray-200 rounded-b dark:border-gray-600">
                             <button data-modal-hide="default-modal" type="submit"

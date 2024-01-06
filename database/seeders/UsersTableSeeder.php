@@ -12,11 +12,22 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
+        
+        // Crea un administrador
         User::create([
-            'name' => 'Usuario  Prueba',
-            'email' => 'userprueba@gmail.com',
-            'password' => bcrypt('userprueba'), 
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin'),
+            'role' => 'administrador',
         ]);
+
+        // Crea un vendedor
+        User::create([
+            'name' => 'Vendedor',
+            'email' => 'vendedor@gmail.com',
+            'password' => bcrypt('vendedor'),
+            'role' => 'vendedor',
+        ]);
+        
     }
-    
 }

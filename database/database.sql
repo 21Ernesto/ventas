@@ -58,22 +58,21 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla ventas.migrations: ~12 rows (aproximadamente)
+-- Volcando datos para la tabla ventas.migrations: ~11 rows (aproximadamente)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(20, '2023_12_16_193342_create_ventas_table', 1),
-	(55, '2014_10_12_000000_create_users_table', 2),
-	(56, '2014_10_12_100000_create_password_reset_tokens_table', 2),
-	(57, '2019_05_03_000001_create_customer_columns', 2),
-	(58, '2019_05_03_000002_create_subscriptions_table', 2),
-	(59, '2019_05_03_000003_create_subscription_items_table', 2),
-	(60, '2019_08_19_000000_create_failed_jobs_table', 2),
-	(61, '2019_12_14_000001_create_personal_access_tokens_table', 2),
-	(62, '2023_12_13_200441_create_dashboards_table', 2),
-	(63, '2023_12_13_200455_create_correos_table', 2),
-	(64, '2023_12_13_200511_create_promociones_table', 2),
-	(65, '2023_12_14_000831_create_promo_vendidos_table', 2);
+	(1, '2014_10_12_000000_create_users_table', 1),
+	(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
+	(3, '2019_05_03_000001_create_customer_columns', 1),
+	(4, '2019_05_03_000002_create_subscriptions_table', 1),
+	(5, '2019_05_03_000003_create_subscription_items_table', 1),
+	(6, '2019_08_19_000000_create_failed_jobs_table', 1),
+	(7, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+	(8, '2023_12_13_200441_create_dashboards_table', 1),
+	(9, '2023_12_13_200455_create_correos_table', 1),
+	(10, '2023_12_13_200511_create_promociones_table', 1),
+	(11, '2023_12_14_000831_create_promo_vendidos_table', 1);
 
 -- Volcando estructura para tabla ventas.password_reset_tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
@@ -109,8 +108,13 @@ CREATE TABLE IF NOT EXISTS `promociones` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nombre_paquete` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion_paquete` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `costo_adulto_pro` double NOT NULL,
+  `costo_ninio_pro` double NOT NULL,
   `costo_adulto` double NOT NULL,
   `costo_ninio` double NOT NULL,
+  `rango_edad` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `correo_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `correo_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `imagen` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `promocion` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -127,9 +131,12 @@ CREATE TABLE IF NOT EXISTS `promo_vendidos` (
   `telefono` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `correo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `costo_real_adul` int NOT NULL,
+  `costo_real_nini` int NOT NULL,
   `cantidad_adultos` int NOT NULL,
   `cantidad_ninio` int NOT NULL,
-  `cantidad_dias` int NOT NULL,
+  `fecha_llegada` date NOT NULL,
+  `fecha_salida` date NOT NULL,
   `total` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -182,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -192,21 +200,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_stripe_id_index` (`stripe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla ventas.users: ~1 rows (aproximadamente)
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `stripe_id`, `pm_type`, `pm_last_four`, `trial_ends_at`) VALUES
-	(1, 'Usuario  Prueba', 'userprueba@gmail.com', NULL, '$2y$12$SwHNN.vnPrcl.yWllhozaeKlpoa9hPgelRvYALdA/R/DJoayVc4Ty', NULL, '2023-12-26 17:53:07', '2023-12-26 17:53:07', NULL, NULL, NULL, NULL);
-
--- Volcando estructura para tabla ventas.ventas
-CREATE TABLE IF NOT EXISTS `ventas` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Volcando datos para la tabla ventas.ventas: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla ventas.users: ~2 rows (aproximadamente)
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`, `stripe_id`, `pm_type`, `pm_last_four`, `trial_ends_at`) VALUES
+	(1, 'Admin', 'admin@gmail.com', NULL, '$2y$12$sERDoS/fv1pyB3GrnDe7fedKnOIUDnj/IkfYGd70wFLNw1oxfaBpK', 'administrador', NULL, '2024-01-06 11:53:27', '2024-01-06 11:53:27', NULL, NULL, NULL, NULL),
+	(2, 'Vendedor', 'vendedor@gmail.com', NULL, '$2y$12$iC3rFz0ebAEZVvixx6bwwuLJh8VLdq06lId2upBCRLUOeLicGnCPO', 'vendedor', NULL, '2024-01-06 11:53:27', '2024-01-06 11:53:27', NULL, NULL, NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
