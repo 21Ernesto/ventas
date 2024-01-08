@@ -80,7 +80,6 @@ class PromoVendidosController extends Controller
 
             return response()->json(['ventas' => $data, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
         }
-
         return view('admin.ventas.index', compact('ventas', 'fechaActual', 'fechaBusqueda'));
     }
 
@@ -122,6 +121,7 @@ class PromoVendidosController extends Controller
         $costoNinio = $request->input('costo_ninio', 0);
 
         $total = ($costoAdulto * $cantidadAdultos) + ($costoNinio * $cantidadNinios);
+        $total_real = ($costo_real_adul * $cantidadAdultos) + ($costo_real_nini * $cantidadNinios);
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -149,6 +149,7 @@ class PromoVendidosController extends Controller
                 'fecha_llegada' => $fecha_llegada,
                 'fecha_salida' => $fecha_salida,
                 'total' => $total,
+                'total_real' => $total_real,
             ]);
 
             $correos = Correos::pluck('email')->toArray();

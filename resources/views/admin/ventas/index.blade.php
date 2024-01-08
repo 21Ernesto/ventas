@@ -140,7 +140,7 @@
                     $('#diferencial').text(response.diferencial);
                     $('#ganancias').text(response.ganancias);
 
-                    // Actualizar la tabla con los nuevos resultados
+
                     var ventasTableBody = $('#ventasTableBody');
                     ventasTableBody.empty();
 
@@ -148,30 +148,31 @@
                         var newRow = `
                         <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
                             <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ substr($venta->id, 0, 13) }}
+                                ${ventas.id.substr(0, 13)}
                             </td>
                             <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $venta->nombre }}
+                                ${ventas.nombre}
                             </td>
                             <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $venta->correo }}
+                                ${ventas.correo}
                             </td>
                             <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $venta->cantidad_adultos }}
+                                ${ventas.cantidad_adultos}
                             </td>
                             <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $venta->cantidad_ninio }}
+                                ${ventas.cantidad_ninio}
                             </td>
                             <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                $ {{ number_format($venta->total) }}
+                                $ ${number_format(ventas.total, 2, '.', ',')}
                             </td>
                             <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $venta->created_at }}
+                                ${ventas.created_at}
                             </td>
                         </tr>
                     `;
-                    ventasTableBody.append(newRow);
+                        ventasTableBody.append(newRow);
                     });
+
                 },
                 error: function(error) {
                     console.log(error);

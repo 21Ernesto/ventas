@@ -27,7 +27,8 @@ class PromoVendidos extends Model
         'cantidad_ninio',
         'fecha_llegada',
         'fecha_salida',
-        'total'
+        'total',
+        'total_real',
     ];
 
 

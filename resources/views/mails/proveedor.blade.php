@@ -42,11 +42,11 @@
                                 <li><strong>Producto adquirido:</strong> {{ $compra->nombre_paquete }}</li>
                                 <li><strong>Precio de adulto:</strong> {{ $compra->costo_real_adul }}</li>
                                 <li><strong>Precio de niño:</strong> {{ $compra->costo_real_nini }}</li>
-                                <li><strong>Fecha de salida:</strong> {{ $compra->fecha_salida }}</li>
+                                <li><strong>Fecha de entrada:</strong> {{ $compra->fecha_entrada }}</li>
                                 <li><strong>Fecha de salida:</strong> {{ $compra->fecha_salida }}</li>
                                 <li><strong>Cantidad de adultos:</strong> {{ $compra->cantidad_adultos }}</li>
                                 <li><strong>Cantidad de niños:</strong> {{ $compra->cantidad_ninio }}</li>
-                                <li><strong>Total de la compra:</strong> $ {{ $compra->total }} MXN</li>
+                                <li><strong>Total de la compra:</strong> $ {{ $compra->total_real }} MXN</li>
                             </ul>
                         </td>
                     </tr>

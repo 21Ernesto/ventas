@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('fecha_llegada');
             $table->date('fecha_salida');
             $table->double('total');
+            $table->double('total_real');
             $table->timestamps();
         });
         

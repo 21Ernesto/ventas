@@ -67,55 +67,6 @@
     </div>
 </nav>
 
-{{-- <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-    aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
-        <ul class="space-y-2 font-medium">
-            <li>
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    <i class="fas fa-tachometer-alt"></i>
-                    {{ __('Dashboard') }}
-                </x-responsive-nav-link>
-            </li>
-            <li>
-                <x-responsive-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.index')">
-                    <i class="fas fa-plane"></i>
-                    {{ __('Paquetes') }}
-                </x-responsive-nav-link>
-            </li>
-            <li>
-                <x-responsive-nav-link :href="route('correos.index')" :active="request()->routeIs('correos.index')">
-                    <i class="fas fa-envelope"></i>
-                    {{ __('Correos') }}
-                </x-responsive-nav-link>
-            </li>
-            <li>
-                <x-responsive-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.index')">
-                    <i class="fas fa-chart-line"></i>
-                    {{ __('Ventas') }}
-                </x-responsive-nav-link>
-            </li>
-            <li>
-                <x-responsive-nav-link :href="route('registro')" :active="request()->routeIs('registro')">
-                    <i class="fas fa-user"></i>
-                    {{ __('Usuarios') }}
-                </x-responsive-nav-link>
-            </li>
-        </ul>
-        <div class="fixed bottom-0 left-0 p-4 bg-white dark:bg-gray-800">
-            @php
-                $companyName = 'DIM3NSOFT';
-                $companyUrl = 'https://dim3nsoft.com.mx/';
-            @endphp
-
-            <x-info-company :companyName="$companyName" :companyUrl="$companyUrl" />
-        </div>
-
-    </div>
-
-</aside> --}}
-
 <aside id="logo-sidebar"
     class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
     aria-label="Sidebar">

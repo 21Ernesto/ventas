@@ -204,7 +204,7 @@
                         </div>
 
                         <label for="rango_edad">Rango edad</label>
-                        <input type="text" required name="rango_edad" class="mb-2 p-2 border rounded w-full" />
+                        <input type="text" required name="rango_edad" class="mb-2 p-2 border rounded w-full" value="de 3 a 10 años" readonly />
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
                             <div>
