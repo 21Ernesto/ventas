@@ -110,7 +110,7 @@
                                 <span class="text-gray-400"><a href="#">Términos y condiciones de la cancelación </a></span>
                             </label>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap mb-4 flex-col items-center h-full">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap mb-4 items-center h-full">
                             <div>
                                 <p id="total" class="text-base font-semibold mt-4">Total: 0</p>
                             </div>

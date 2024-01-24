@@ -74,9 +74,4 @@ Route::middleware(['auth', 'preventBackHistory', 'checkRole:administrador'])->gr
     Route::post('/register-store', [RegisteredUserController::class, 'store'])->name('registro.store');
 });
 
-Route::middleware(['auth', 'preventBackHistory', 'checkRole:vendedor'])->group(function () {
-    
-    
-});
-
 require __DIR__ . '/auth.php';

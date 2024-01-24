@@ -58,21 +58,21 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla ventas.migrations: ~11 rows (aproximadamente)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-	(1, '2014_10_12_000000_create_users_table', 1),
-	(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-	(3, '2019_05_03_000001_create_customer_columns', 1),
-	(4, '2019_05_03_000002_create_subscriptions_table', 1),
-	(5, '2019_05_03_000003_create_subscription_items_table', 1),
-	(6, '2019_08_19_000000_create_failed_jobs_table', 1),
-	(7, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-	(8, '2023_12_13_200441_create_dashboards_table', 1),
-	(9, '2023_12_13_200455_create_correos_table', 1),
-	(10, '2023_12_13_200511_create_promociones_table', 1),
-	(11, '2023_12_14_000831_create_promo_vendidos_table', 1);
+	(34, '2014_10_12_000000_create_users_table', 1),
+	(35, '2014_10_12_100000_create_password_reset_tokens_table', 1),
+	(36, '2019_05_03_000001_create_customer_columns', 1),
+	(37, '2019_05_03_000002_create_subscriptions_table', 1),
+	(38, '2019_05_03_000003_create_subscription_items_table', 1),
+	(39, '2019_08_19_000000_create_failed_jobs_table', 1),
+	(40, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+	(41, '2023_12_13_200441_create_dashboards_table', 1),
+	(42, '2023_12_13_200455_create_correos_table', 1),
+	(43, '2023_12_13_200511_create_promociones_table', 1),
+	(44, '2023_12_14_000831_create_promo_vendidos_table', 1);
 
 -- Volcando estructura para tabla ventas.password_reset_tokens
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
@@ -138,6 +138,7 @@ CREATE TABLE IF NOT EXISTS `promo_vendidos` (
   `fecha_llegada` date NOT NULL,
   `fecha_salida` date NOT NULL,
   `total` double NOT NULL,
+  `total_real` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -204,8 +205,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Volcando datos para la tabla ventas.users: ~2 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role`, `remember_token`, `created_at`, `updated_at`, `stripe_id`, `pm_type`, `pm_last_four`, `trial_ends_at`) VALUES
-	(1, 'Admin', 'admin@gmail.com', NULL, '$2y$12$sERDoS/fv1pyB3GrnDe7fedKnOIUDnj/IkfYGd70wFLNw1oxfaBpK', 'administrador', NULL, '2024-01-06 11:53:27', '2024-01-06 11:53:27', NULL, NULL, NULL, NULL),
-	(2, 'Vendedor', 'vendedor@gmail.com', NULL, '$2y$12$iC3rFz0ebAEZVvixx6bwwuLJh8VLdq06lId2upBCRLUOeLicGnCPO', 'vendedor', NULL, '2024-01-06 11:53:27', '2024-01-06 11:53:27', NULL, NULL, NULL, NULL);
+	(1, 'Admin', 'admin@gmail.com', NULL, '$2y$12$pRuTgfbrlt4MVTbPqp/YY.9/qIaLV9akIldiDsqOlZKJtX3E528Lu', 'administrador', NULL, '2024-01-16 16:30:11', '2024-01-16 16:30:11', NULL, NULL, NULL, NULL),
+	(2, 'Vendedor', 'vendedor@gmail.com', NULL, '$2y$12$OzEoWgtxz7ZIV14/53ElzO4.585sZzgurtLP1IS01rlk3M9eVdreq', 'vendedor', NULL, '2024-01-16 16:30:12', '2024-01-16 16:30:12', NULL, NULL, NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

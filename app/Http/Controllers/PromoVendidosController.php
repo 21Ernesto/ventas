@@ -34,14 +34,27 @@ class PromoVendidosController extends Controller
     //             }),
     //             2,
     //             '.',
-    //             ',',
+    //             ','
     //         );
 
     //         $ganancias = number_format($ventas->sum('total'), 2, '.', ',');
 
-    //         return response()->json(['ventas' => $ventas, 'fechaActual' => $fechaActual, 'fechaBusqueda' => $fechaBusqueda, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
-    //     }
+    //         $data = [];
 
+    //         foreach ($ventas as $venta) {
+    //             $data[] = [
+    //                 'id' => substr($venta->id, 0, 13),
+    //                 'nombre' => $venta->nombre,
+    //                 'correo' => $venta->correo,
+    //                 'cantidad_adultos' => $venta->cantidad_adultos,
+    //                 'cantidad_ninio' => $venta->cantidad_ninio,
+    //                 'total' => number_format($venta->total, 2, '.', ','),
+    //                 'created_at' => $venta->created_at,
+    //             ];
+    //         }
+
+    //         return response()->json(['ventas' => $data, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
+    //     }
     //     return view('admin.ventas.index', compact('ventas', 'fechaActual', 'fechaBusqueda'));
     // }
 
@@ -80,8 +93,10 @@ class PromoVendidosController extends Controller
 
             return response()->json(['ventas' => $data, 'diferencial' => $diferencial, 'ganancias' => $ganancias]);
         }
+
         return view('admin.ventas.index', compact('ventas', 'fechaActual', 'fechaBusqueda'));
     }
+
 
     public function create()
     {

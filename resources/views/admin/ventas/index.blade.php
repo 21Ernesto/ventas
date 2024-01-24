@@ -136,43 +136,40 @@
                     fecha: fecha
                 },
                 success: function(response) {
-                    // Actualizar el diferencial y ganancias
                     $('#diferencial').text(response.diferencial);
                     $('#ganancias').text(response.ganancias);
-
 
                     var ventasTableBody = $('#ventasTableBody');
                     ventasTableBody.empty();
 
                     $.each(response.ventas, function(index, venta) {
                         var newRow = `
-                        <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
-                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.id.substr(0, 13)}
-                            </td>
-                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.nombre}
-                            </td>
-                            <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.correo}
-                            </td>
-                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.cantidad_adultos}
-                            </td>
-                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.cantidad_ninio}
-                            </td>
-                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                $ ${number_format(ventas.total, 2, '.', ',')}
-                            </td>
-                            <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                ${ventas.created_at}
-                            </td>
-                        </tr>
-                    `;
+                            <tr class="bg-white text-center dark:bg-gray-800 dark:border-gray-700 border-b-2">
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.id.substr(0, 13)}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.nombre}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.correo}
+                                </td>
+                                <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.cantidad_adultos}
+                                </td>
+                                <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.cantidad_ninio}
+                                </td>
+                                <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    $ ${venta.total}
+                                </td>
+                                <td class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    ${venta.created_at}
+                                </td>
+                            </tr>
+                        `;
                         ventasTableBody.append(newRow);
                     });
-
                 },
                 error: function(error) {
                     console.log(error);
@@ -238,29 +235,5 @@
                     console.error('Error al realizar la búsqueda:', error);
                 });
         });
-
-        // function searchVentasFecha() {
-        //     let inputDate, filterDate, table, tr, tdDate, i, txtValueDate;
-
-        //     inputDate = document.getElementById("fecha");
-        //     filterDate = inputDate.value;
-
-        //     table = document.querySelector("table");
-        //     tr = table.getElementsByTagName("tr");
-
-        //     for (i = 1; i < tr.length; i++) {
-        //         tdDate = tr[i].getElementsByTagName("td")[6]; // Cambia el índice según la posición de la columna de fecha
-
-        //         if (tdDate) {
-        //             txtValueDate = tdDate.textContent || tdDate.innerText;
-
-        //             if (txtValueDate.includes(filterDate) || filterDate === "") {
-        //                 tr[i].style.display = "";
-        //             } else {
-        //                 tr[i].style.display = "none";
-        //             }
-        //         }
-        //     }
-        // }
     </script>
 @endsection
